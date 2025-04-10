@@ -1,0 +1,4 @@
+﻿CustomerID,FirstName,LastName,Email,Gender,Age,RegionID
+C001,John,Smith,john.smith@example.com,Male,35,R001
+C002,Emily,Davis,emily.davis@example.com,Female,29,R002
+C003,Michael,Johnson,michael.johnson@example.com,Male,42,R001
