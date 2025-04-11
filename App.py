@@ -1,5 +1,4 @@
 import os
-import uuid
 import pandas as pd
 import requests
 import json
@@ -162,23 +161,13 @@ def clone_report(workspace_id, report_id, new_report_name, new_dataset_id, acces
 
     if response.status_code == 200:
         print("Report cloned successfully!")
-        print(response.json())
+        cloned_report = response.json()
+        new_report_id = cloned_report.get('id')
+        return f"https://app.powerbi.com/groups/{workspace_id}/reports/{new_report_id}"
     else:
         print(f"Failed to clone report: {response.status_code}")
         print(response.text)
-    
-        # Detailed 404 troubleshooting
-        print("\nTroubleshooting 404 error:")
-        print(f"1. Verify workspace ID '{workspace_id}' exists and you have access")
-        print(f"2. Verify report ID '{report_id}' exists in this workspace")
-        print(f"3. Verify dataset ID '{new_dataset_id}' exists and is accessible")
-        print(f"4. Verify your access token has these permissions:")
-        print("   - Report.ReadWrite.All")
-        print("   - Dataset.ReadWrite.All")
-        
-        print("\nFull error response:")
-        print(response.text)
-
+        return 
 
 def main():
     
@@ -221,8 +210,8 @@ def main():
         if not success:
             print(f"Failed to upload data to table '{table_name}'. Continuing with other tables.")
  
-    clone_report(WORKSPACE_ID, REPORT_ID, NEW_REPORT_NAME, dataset_id, access_token)
-
+    NEW_REPORT_URL = clone_report(WORKSPACE_ID, REPORT_ID, NEW_REPORT_NAME, dataset_id, access_token)
+    print(f"New report URL: {NEW_REPORT_URL}")
 
 if __name__ == "__main__":
     main()
